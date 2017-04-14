@@ -239,6 +239,7 @@ GEM
     paranoia (2.2.1)
       activerecord (>= 4.0, < 5.1)
     pg (0.20.0)
+    plaid (4.0.0)
     poltergeist (1.14.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -422,6 +423,7 @@ DEPENDENCIES
   omniauth-github
   paranoia
   pg
+  plaid
   poltergeist
   pry
   puffing-billy

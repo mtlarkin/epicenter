@@ -32,6 +32,7 @@ gem 'font-awesome-rails'
 gem 'bootstrap-multiselect-rails'
 gem 'kaminari'
 gem 'paranoia'
+gem 'plaid'
 
 group :development do
   gem 'spring'

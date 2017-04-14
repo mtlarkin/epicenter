@@ -1,4 +1,4 @@
-feature 'Creating a bank account' do
+feature 'Creating a bank account manually' do
   scenario 'as a guest' do
     visit new_bank_account_path
     expect(page).to have_content 'need to sign in'
@@ -9,6 +9,7 @@ feature 'Creating a bank account' do
       student = FactoryGirl.create(:student)
       login_as(student, scope: :student)
       visit new_bank_account_path
+      click_on 'Enter bank account info manually'
       fill_in 'Name on account', with: student.name
       select 'Individual'
     end
@@ -75,3 +76,18 @@ feature 'Verifying a bank account' do
     end
   end
 end
+
+# feature 'Creating a bank account via plaid' do
+#   context 'as a student' do
+#     before do
+#       student = FactoryGirl.create(:student)
+#       login_as(student, scope: :student)
+#       visit new_bank_account_path
+#       click_on 'Link bank account instantly'
+#     end
+#
+#     scenario 'with valid information', :vcr, :js do
+#       save_and_open_screenshot
+#     end
+#   end
+# end

@@ -11,6 +11,14 @@ class BankAccount < PaymentMethod
     "pending"
   end
 
+  def self.exchange_plaid_token(public_token, account_id)
+    client = Plaid::Client.new(env: :sandbox, client_id: ENV['PLAID_CLIENT_ID'], secret: ENV['PLAID_SECRET_KEY'], public_key: ENV['PLAID_PUBLIC_KEY'])
+    exchange_token_response = client.item.public_token.exchange(public_token)
+    access_token = exchange_token_response['access_token']
+    stripe_response = client.processor.stripe.bank_account_token.create(access_token, account_id)
+    stripe_response['stripe_bank_account_token']
+  end
+
 private
 
   def verify_account

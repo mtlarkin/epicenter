@@ -1,4 +1,39 @@
 $(function() {
+  <% environment.context_class.instance_eval { include Rails.application.routes.url_helpers} %>
+
+  $('#add-bank-account-manual-button').click(function() {
+    $("#add-bank-account-manual-button").hide();
+    $("#manual-bank-intro-text").hide();
+    $('#manual-bank-account-form').removeClass('hidden');
+  });
+
+  $('#add-bank-account-plaid-button').click(function() {
+    var linkHandler = Plaid.create({
+      apiVersion: 'v2',
+      selectAccount: true,
+      clientName: 'Epicodus',
+      product: 'auth',
+      env: '<%= Rails.env.production? ? :production : :sandbox %>',
+      key: '<%= ENV['PLAID_PUBLIC_KEY'] %>',
+      onSuccess: function(public_token, metadata) {
+        $.ajax({
+          method: "POST",
+          url: "<%= url_for(bank_accounts_path) %>",
+          data: { public_token: public_token, account_id: metadata.account_id }
+        });
+      },
+      onExit: function(err, metadata) {
+        if (err != null) {
+          alert("Plaid API error");
+        }
+      }
+    });
+    linkHandler.open();
+    $("#add-bank-account-manual-button").show();
+    $("#manual-bank-intro-text").show();
+    $('#manual-bank-account-form').addClass('hidden');
+  });
+
   $('form#new_bank_account').submit(function(event) {
     event.preventDefault();
     var formData = {
