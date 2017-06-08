@@ -11,9 +11,9 @@ class Course < ActiveRecord::Base
 
   validates :language_id, :start_date, :end_date, :start_time, :end_time, :office_id, presence: true
   before_validation :set_start_and_end_dates
-  before_save :set_parttime
-  before_save :set_internship_course
-  before_save :set_description
+  before_create :set_parttime
+  before_create :set_internship_course
+  before_create :set_description
 
   belongs_to :admin
   belongs_to :office
@@ -175,12 +175,12 @@ private
   end
 
   def set_description
-    if language.level == 4
+    if language.level == 0
+      self.description = "#{start_date.strftime('%Y-%m')} #{language.name}"
+    elsif language.level == 4
       level_3_graduated = Course.courses_for(office).where('end_date > ? AND end_date < ?', start_date - 3.weeks, start_date).select {|course| course.language && course.language.level == 3 }
       languages = level_3_graduated.map { |course| course.language.name }.sort.join(", ")
       self.description = "#{start_date.strftime('%Y-%m')} #{language.name} (#{languages})"
-    elsif language.level == 0 && office.name != "Portland"
-      self.description = "#{start_date.strftime('%Y-%m')} #{language.name} #{office.name.upcase}"
     else
       self.description = "#{start_date.strftime('%Y-%m')} #{language.name}"
     end

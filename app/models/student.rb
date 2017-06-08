@@ -386,9 +386,22 @@ private
       lead = close_io_client.list_leads('email:' + email)
       if lead.total_results > 0
         name = lead.data.first.contacts.first.name
-        course = Course.find_by(description: lead.data.first.custom.Class)
-        name && name != "" ? response[:name] = name : response[:errors].push("Name not found")
-        course ? response[:course_id] = course.id : response[:errors].push("Valid course not found")
+        course_description = lead.data.first.custom.Class
+        office_name = lead.data.first.custom.Campus
+        if name.blank? || course_description.blank? || office_name.blank?
+          response[:errors].push("Name not found in CRM") if name.blank?
+          response[:errors].push("Class not found in CRM") if course_description.blank?
+          response[:errors].push("Campus not found in CRM") if office_name.blank?
+        else
+          office = Office.find_by(name: office_name)
+          course = Course.find_by(description: course_description, office: office)
+          if course
+            response[:name] = name
+            response[:course_id] = course.id
+          else
+            response[:errors].push("Valid course not found in Epicenter")
+          end
+        end
       else
         response[:errors].push("Email not found")
       end
