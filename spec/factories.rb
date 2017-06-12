@@ -541,6 +541,10 @@ FactoryGirl.define do
 
   factory :track do
     description 'Ruby/Rails'
+    before(:create) do |track|
+      track.languages << build(:intro_language)
+    end
+
   end
 
   factory :interview_assignment do
