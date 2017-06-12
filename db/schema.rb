@@ -217,6 +217,58 @@ ActiveRecord::Schema.define(version: 20170609202430) do
     t.string   "description"
   end
 
+  create_table "questions", force: :cascade do |t|
+    t.integer "question_id"
+    t.string "course"
+    t.integer "week"
+    t.integer "day"
+    t.string "topic"
+    t.string "question"
+    t.string "correct_answer"
+    t.string "incorrect_answer_one"
+    t.string "incorrect_answer_two"
+    t.string "incorrect_answer_three"
+    t.integer "times_answered_correctly"
+    t.integer "times_answered_incorrectly"
+    t.string "lesson_link"
+  end
+
+  create_table "quizzes", force: :cascade do |t|
+    t.integer "quiz_id"
+    t.string "course"
+    t.integer "week"
+    t.integer "day"
+    t.integer "question_1_id"
+    t.integer "question_2_id"
+    t.integer "question_3_id"
+    t.integer "question_4_id"
+    t.integer "question_5_id"
+    t.integer "question_6_id"
+    t.integer "question_7_id"
+    t.integer "question_8_id"
+    t.integer "question_9_id"
+    t.integer "question_10_id"
+    t.integer "question_11_id"
+    t.integer "question_12_id"
+    t.integer "question_13_id"
+    t.integer "question_14_id"
+    t.integer "question_15_id"
+    t.integer "question_16_id"
+    t.integer "question_17_id"
+    t.integer "question_18_id"
+    t.integer "question_19_id"
+    t.integer "question_20_id"
+  end
+
+  create_table "students_quizzes", force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "quiz_id"
+    t.integer "score"
+  end
+
+
+
+
   create_table "ratings", force: :cascade do |t|
     t.integer  "student_id"
     t.integer  "internship_id"
