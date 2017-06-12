@@ -218,7 +218,7 @@ ActiveRecord::Schema.define(version: 20170609202430) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.integer "question_id"
+    t.integer :id
     t.string "course"
     t.integer "week"
     t.integer "day"
@@ -234,7 +234,7 @@ ActiveRecord::Schema.define(version: 20170609202430) do
   end
 
   create_table "quizzes", force: :cascade do |t|
-    t.integer "quiz_id"
+    t.integer :id
     t.string "course"
     t.integer "week"
     t.integer "day"
@@ -263,6 +263,8 @@ ActiveRecord::Schema.define(version: 20170609202430) do
   create_table "students_quizzes", force: :cascade do |t|
     t.integer "student_id"
     t.integer "quiz_id"
+    t.integer "correct"
+    t.integer "incorrect"
     t.integer "score"
   end
 
